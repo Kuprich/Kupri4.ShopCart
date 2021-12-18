@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Kupri4.ShopCart.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Kupri4.ShopCart.Infrastructure
 {
@@ -7,5 +8,7 @@ namespace Kupri4.ShopCart.Infrastructure
         public ShopCartDbContext(DbContextOptions<ShopCartDbContext> options)
             : base(options)
         { }
+
+        public DbSet<Page> Pages { get; set; }
     }
 }
