@@ -4,10 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-@if(TempData["Success"] != null)
-{
-    <div class="alert alert-success">@TempData["Success"]</div>
-}
+@await Html.PartialAsync("_NotificationPartial")
 
 <h1>Index</h1>
 
@@ -49,7 +46,7 @@
 
                     @if (@item.Slug != "home")
                     {
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a class="confirmDeletion" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
                     }
 
                 </td>

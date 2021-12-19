@@ -103,7 +103,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
                 return View(page);
             }
 
-            TempData["Success"] = $"Page \"{page.Title}\' has been Edited";
+            TempData["Success"] = $"Page \"{page.Title}\' has been edited";
 
             _dbContext.Pages.Update(page);
             await _dbContext.SaveChangesAsync();
@@ -111,22 +111,27 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        //// Get /admin/pages/delte/5
-        //public async Task<IActionResult> Delete(int id)
-        //{
-        //    var page = _dbContext.Pages.FirstOrDefaultAsync(x => x.Id == id);
+        // Get /admin/pages/delte/3
+        public async Task<IActionResult> Delete(int id)
+        {
+            var page = await _dbContext.Pages.FirstOrDefaultAsync(x => x.Id == id);
 
-        //    if (page == null)
-        //    {
-        //        TempData["Error"] = $"Page does not exist";
-        //        return RedirectToAction(nameof(Index));
-        //    }
+            if (page == null)
+            {
+                TempData["Error"] = $"Page does not exist";
+                return RedirectToAction(nameof(Index));
+            }
+
+            _dbContext.Pages.Remove(page);
+            await _dbContext.SaveChangesAsync();
+
+            TempData["Success"] = $"Page \"{page.Title}\' has been deleted";
+
+            return RedirectToAction(nameof(Index));
 
 
 
-
-
-        //}
+        }
 
     }
 }
