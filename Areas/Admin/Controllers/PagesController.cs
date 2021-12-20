@@ -128,10 +128,26 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             TempData["Success"] = $"Page \"{page.Title}\' has been deleted";
 
             return RedirectToAction(nameof(Index));
-
-
-
         }
 
+        //POST /admin/pages/reorder
+        [HttpPost]
+        public async Task<IActionResult> Reorder(int[] id)
+        {
+            int count = 1;
+
+            foreach (int pageId in id)
+            {
+                Page page = await _dbContext.Pages.FindAsync(pageId);
+                if (page != null)
+                {
+                    page.Sorting = count++;
+                    await _dbContext.SaveChangesAsync();
+                }
+            }
+
+            return RedirectToAction(nameof(Index));
+
+        }
     }
 }
