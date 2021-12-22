@@ -79,7 +79,14 @@ div.alert.notification {
     position: absolute;
     right: 0;
 }
-.ui-state-highlight{
+.ui-state-highlight {
     border: 1px dashed #ccc;
     background-color: rgb(128, 128, 128, 0.1)
+}
+
+a.nav-link:hover {
+    opacity: 0.5
+}
+a.nav-link{
+    transition: 0.3s
 }

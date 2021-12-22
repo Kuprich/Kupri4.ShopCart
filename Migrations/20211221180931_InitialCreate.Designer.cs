@@ -3,14 +3,16 @@ using System;
 using Kupri4.ShopCart.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Kupri4.ShopCart.Migrations
 {
     [DbContext(typeof(ShopCartDbContext))]
-    partial class ShopCartDbContextModelSnapshot : ModelSnapshot
+    [Migration("20211221180931_InitialCreate")]
+    partial class InitialCreate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

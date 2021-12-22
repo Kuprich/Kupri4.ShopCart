@@ -111,7 +111,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // Get /admin/pages/delte/3
+        // Get /admin/pages/delete/3
         public async Task<IActionResult> Delete(int id)
         {
             var page = await _dbContext.Pages.FirstOrDefaultAsync(x => x.Id == id);
@@ -147,7 +147,6 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(Index));
-
         }
     }
 }

@@ -3,17 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Kupri4.ShopCart.Areas.Admin.Controllers
 {
-    public class CategoryController : Controller
+    public class ProductsController : Controller
     {
         private readonly ShopCartDbContext _dbContext;
 
-        public CategoryController(ShopCartDbContext dbContext)
+        public ProductsController(ShopCartDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+        // GET admin/products
+        public ViewResult Index() => View();
     }
 }
