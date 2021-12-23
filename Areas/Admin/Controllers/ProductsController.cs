@@ -1,6 +1,8 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kupri4.ShopCart.Areas.Admin.Controllers
@@ -24,9 +26,10 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
         }
 
         // GET admin/products/create
-        public async Task<ViewResult> Create()
+        public ViewResult Create()
         {
-            ViewBag.CategirieeList = new SelectList();
+            ViewBag.CategoryId = new SelectList(_dbContext.Categories.OrderBy(x => x.Sorting), "Id", "Name");
+            return View();
         }
     }
 }

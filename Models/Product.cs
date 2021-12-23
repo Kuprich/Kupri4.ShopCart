@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Kupri4.ShopCart.Models
 {
@@ -14,10 +16,16 @@ namespace Kupri4.ShopCart.Models
         [MinLength(5, ErrorMessage = "Minimum length is 5")]
         public string Description { get; set; }
 
+        [Display(Name = "Category")]
+        public int CategoryId { get; set; }
+
         public decimal Price { get; set; }
 
         public string Image { get; set; }
 
         public Category Category { get; set; }
+
+        [NotMapped]
+        public IFormFile ImageUpload { get; set; }
     }
 }
