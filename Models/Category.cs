@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Kupri4.ShopCart.Models
 {
@@ -13,5 +14,6 @@ namespace Kupri4.ShopCart.Models
         public string Slug { get; set; }
 
         public int Sorting { get; set; }
+        public IList<Product> Products { get; set; } = new List<Product>();
     }
 }

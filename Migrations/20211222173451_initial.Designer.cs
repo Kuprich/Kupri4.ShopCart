@@ -9,8 +9,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Kupri4.ShopCart.Migrations
 {
     [DbContext(typeof(ShopCartDbContext))]
-    [Migration("20211221180931_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20211222173451_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -76,8 +76,8 @@ namespace Kupri4.ShopCart.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("TEXT");
 
-                    b.Property<byte[]>("Image")
-                        .HasColumnType("BLOB");
+                    b.Property<string>("Image")
+                        .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -87,7 +87,6 @@ namespace Kupri4.ShopCart.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Slug")
-                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
@@ -100,10 +99,15 @@ namespace Kupri4.ShopCart.Migrations
             modelBuilder.Entity("Kupri4.ShopCart.Models.Product", b =>
                 {
                     b.HasOne("Kupri4.ShopCart.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("Kupri4.ShopCart.Models.Category", b =>
+                {
+                    b.Navigation("Products");
                 });
 #pragma warning restore 612, 618
         }
