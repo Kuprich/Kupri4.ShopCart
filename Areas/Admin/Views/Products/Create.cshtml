@@ -10,7 +10,7 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="Create">
+        <form asp-action="Create" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-group">
@@ -39,8 +39,10 @@
             </div>
             <div class="form-group">
                 <label asp-for="Image" class="control-label"></label>
-                <input asp-for="Image" class="form-control" />
+                <input asp-for="ImageUpload" class="form-control" />
                 <span asp-validation-for="Image" class="text-danger"></span>
+                <br />
+                <img id="imgPreview"/>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
@@ -54,16 +56,19 @@
 </div>
 
 @section Scripts {
-    @{
-    await Html.RenderPartialAsync("_ValidationScriptsPartial");
-}
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-<script type="text/javascript">
+<script>
     ClassicEditor
-            .create( document.querySelector( '#Description' ) )
-            .catch( error => {
-                console.error( error );
-            } );
+        .create( document.querySelector( '#Description' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+    $("#ImageUpload").change(function(){
+        console.log("changed");
+        readUrl(this);
+    })
 </script>
+
 
 }

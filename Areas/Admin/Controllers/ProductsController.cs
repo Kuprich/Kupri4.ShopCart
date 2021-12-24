@@ -1,4 +1,5 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
+using Kupri4.ShopCart.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,14 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
         {
             ViewBag.CategoryId = new SelectList(_dbContext.Categories.OrderBy(x => x.Sorting), "Id", "Name");
             return View();
+        }
+
+        // POST admin/products/create
+        [HttpPost]
+        public IActionResult Create(Product product)
+        {
+
+            return null;
         }
     }
 }

@@ -17,6 +17,7 @@ namespace Kupri4.ShopCart.Models
         public string Description { get; set; }
 
         [Display(Name = "Category")]
+        [Range(1, int.MaxValue, ErrorMessage = "Choose a category")]
         public int CategoryId { get; set; }
 
         public decimal Price { get; set; }
