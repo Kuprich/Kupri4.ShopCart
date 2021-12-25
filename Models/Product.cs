@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Kupri4.ShopCart.Infrastructure;
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,6 +28,7 @@ namespace Kupri4.ShopCart.Models
         public Category Category { get; set; }
 
         [NotMapped]
+        [FileExtension]
         public IFormFile ImageUpload { get; set; }
     }
 }
