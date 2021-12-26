@@ -73,7 +73,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             return NotFound();
         }
 
-        //POST /admin/categories/edit/2
+        //POST /admin/categories/edit
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Category category)
