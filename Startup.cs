@@ -59,8 +59,13 @@ namespace Kupri4.ShopCart
                   pattern: "{area:exists}/{controller=Pages}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "pages",
+                    pattern: "{slug:alpha?}",
+                    defaults: new { controller = "Pages", action = "Pages" });
+
+                endpoints.MapControllerRoute(
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
             });
 
         }

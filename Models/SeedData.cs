@@ -17,7 +17,6 @@ namespace Kupri4.ShopCart.Models
                     return;
                 }
 
-
                 await dbContext.Pages.AddRangeAsync(pages);
                 await dbContext.Categories.AddRangeAsync(categories);
                 await dbContext.Products.AddRangeAsync(products);
@@ -26,6 +25,7 @@ namespace Kupri4.ShopCart.Models
 
             }
         }
+
         private static Page[] pages = new[]
         {
             new Page
@@ -39,7 +39,7 @@ namespace Kupri4.ShopCart.Models
             new Page
             {
                 Title = "About Us",
-                Slug = "abuot-us",
+                Slug = "about-us",
                 Content = "abuot-us page",
                 Sorting = 100,
             },
