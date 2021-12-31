@@ -16,13 +16,18 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductsController : Controller
     {
+        private const string DefaultImageName = "noimage.png";
+
         private readonly ShopCartDbContext _dbContext;
         private readonly IWebHostEnvironment _webHostEnvironment;
+
+        private readonly string _uploadsDir;
 
         public ProductsController(ShopCartDbContext dbContext, IWebHostEnvironment webHostEnvironment)
         {
             _dbContext = dbContext;
             _webHostEnvironment = webHostEnvironment;
+            _uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "media", "products");
         }
 
         // GET admin/products/
@@ -73,12 +78,11 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
                 return View(product);
             }
 
-            string imageName = "noimage.png";
+            string imageName = DefaultImageName;
             if (product.ImageUpload != null)
             {
-                string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "media", "products");
                 imageName = Guid.NewGuid() + product.ImageUpload.FileName;
-                string filePath = Path.Combine(uploadsDir, imageName);
+                string filePath = Path.Combine(_uploadsDir, imageName);
                 FileStream fs = new FileStream(filePath, FileMode.Create);
                 await product.ImageUpload.CopyToAsync(fs);
                 fs.Close();
@@ -95,7 +99,6 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
         }
 
         // GET /admin/products/edit
-        [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
             var product = await _dbContext.Products.FindAsync(id);
@@ -103,16 +106,6 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             if (product != null)
             {
                 ViewBag.CategoryId = new SelectList(_dbContext.Categories.OrderBy(x => x.Sorting), "Id", "Name");
-
-                string filePath = Path.Combine(_webHostEnvironment.WebRootPath, "media", "products", product.Image ?? "noimage.png");
-
-                using (var stream = System.IO.File.OpenRead(filePath))
-                {
-                    product.ImageUpload = new FormFile(stream, 0, stream.Length, "ImageUpload", Path.GetFileName(stream.Name))
-                    {
-                        Headers = new HeaderDictionary()
-                    };
-                }
 
                 return View(product);
             }
@@ -125,12 +118,12 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(Product product)
         {
+            ViewBag.CategoryId = new SelectList(_dbContext.Categories.OrderBy(x => x.Sorting), "Id", "Name");
+
             if (!ModelState.IsValid)
             {
                 return View(product);
             }
-
-            ViewBag.CategoryId = new SelectList(_dbContext.Categories.OrderBy(x => x.Sorting), "Id", "Name");
 
             product.Slug = Regex.Replace(product.Name.ToLower().Trim(), @"\s+", "-");
 
@@ -140,16 +133,27 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
                 return View(product);
             }
 
-            string imageName = "noimage.png";
+            string imageName = DefaultImageName;
             if (product.ImageUpload != null)
             {
-                string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "media", "products");
+
+                if (!product.Image.Equals(DefaultImageName))
+                {
+                    string imgOldPath = Path.Combine(_uploadsDir, product.Image);
+                    if (System.IO.File.Exists(imgOldPath))
+                    {
+                        System.IO.File.Delete(imgOldPath);
+                    }
+                }
+
                 imageName = Guid.NewGuid() + product.ImageUpload.FileName;
-                string filePath = Path.Combine(uploadsDir, imageName);
+                string filePath = Path.Combine(_uploadsDir, imageName);
                 FileStream fs = new FileStream(filePath, FileMode.Create);
                 await product.ImageUpload.CopyToAsync(fs);
                 fs.Close();
             }
+
+            product.Image = imageName;
 
             TempData["Success"] = $"Product \"{product.Name}\' has been edited";
 
@@ -159,5 +163,51 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET /admin/products/details/4
+        public async Task<IActionResult> Details(int id)
+        {
+            var product = await _dbContext.Products.FirstOrDefaultAsync(x => x.Id == id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+            if (product.Image == null)
+            {
+                product.Image = DefaultImageName;
+            }
+
+            return View(product);
+        }
+
+        // Get /admin/products/delete/3
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _dbContext.Products.FindAsync(id);
+
+            if (product == null)
+            {
+                TempData["Error"] = $"Product does not exist";
+                return RedirectToAction(nameof(Index));
+            }
+
+            if (product.Image != DefaultImageName)
+            {
+                string filePath = Path.Combine(_uploadsDir, product.Image);
+
+                if (System.IO.File.Exists(filePath))
+                {
+                    System.IO.File.Delete(filePath);
+                }
+
+            }
+
+            _dbContext.Products.Remove(product);
+            await _dbContext.SaveChangesAsync();
+
+            TempData["Success"] = $"Product \"{product.Name}\' has been deleted";
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

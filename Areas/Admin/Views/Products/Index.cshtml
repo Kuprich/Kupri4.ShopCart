@@ -13,7 +13,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Id)
+                @Html.DisplayNameFor(model => model.Image)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Name)
@@ -38,7 +38,7 @@
         {
             <tr>
                 <td>
-                    @item.Id
+                    <img src="~/media/products/@item.Image" alt="товар" width="100"/>
                 </td>
                 <td>
                     @item.Name

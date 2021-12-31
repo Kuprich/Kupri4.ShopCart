@@ -10,10 +10,10 @@
 <hr />
 <div class="row">
     <div class="col-md-10">
-        <form asp-action="Edit">
+        <form asp-action="Edit" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Image" />
 
             <div class="form-group">
                 <label asp-for="CategoryId" class="control-label"></label>
@@ -40,6 +40,11 @@
                 <label asp-for="Price" class="control-label"></label>
                 <input asp-for="Price" class="form-control" />
                 <span asp-validation-for="Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">Current image</label>
+                <br />
+                <img width="200" src="~/media/products/@Model.Image" />
             </div>
 
             <div class="form-group">
@@ -73,7 +78,6 @@
         } );
 
     $("#ImageUpload").change(function(){
-        console.log("changed");
         readUrl(this);
     });
 

@@ -56,7 +56,7 @@ namespace Kupri4.ShopCart
 
                 endpoints.MapControllerRoute(
                   name: "areas",
-                  pattern: "{area:exists}/{controller=Pages}/{action=Index}/{p?}");
+                  pattern: "{area:exists}/{controller=Pages}/{action=Index}/{id?}");
 
                 endpoints.MapControllerRoute(
                     name: "default",
