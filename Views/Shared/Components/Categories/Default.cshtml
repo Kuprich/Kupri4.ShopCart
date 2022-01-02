@@ -1,0 +1,16 @@
+﻿@model IEnumerable<Category>
+
+<div class="list-group">
+
+    <a asp-area="" asp-controller="Products" asp-action="Index" class="list-group-item list-group-item-action">
+        All products
+    </a>
+
+    @foreach (var item in Model)
+    {
+        <a asp-area="" asp-controller="Products" asp-action="ProductsByCategory" asp-route-categorySlug="@item.Slug" class="list-group-item list-group-item-action ">
+            @item.Name
+        </a>
+    }
+
+</div>

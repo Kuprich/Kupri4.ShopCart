@@ -4,32 +4,45 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>
-    @(ViewBag.CategoryName == null ? "All products" : ViewBag.CategoryName)
-</h1>
-
-   
 <div class="row">
-    @foreach (var product in Model)
-    {
-        <div class="col-4">
-            <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
-            <h4>@product.Name</h4>
-            <p>
-                @Html.Raw(@product.Description)
-            </p>
-            <p>@product.Price.ToString("C2")</p>
-            <p>
-                <a href="#" class="btn btn-primary">add to Cart</a>
-            </p>
-        </div>
-    }
-</div>
-
-<div class="row">
-    <div class="text-center">
-        <Pagination page-count="@ViewBag.TotalPages" page-target="@ViewBag.PageTarget" page-number="@ViewBag.PageNumber" page-range="10"></Pagination>
+    <div class="col-3">
+        @await Component.InvokeAsync("Categories")
     </div>
+    <div class="col">
+        <h1>
+            @(ViewBag.CategoryName == null ? "All products" : ViewBag.CategoryName)
+        </h1>
+
+
+        <div class="row">
+            @foreach (var product in Model)
+            {
+                <div class="col-4">
+                    <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
+                    <h4>@product.Name</h4>
+                    <p>
+                        @Html.Raw(@product.Description)
+                    </p>
+                    <p>@product.Price.ToString("C2")</p>
+                    <p>
+                        <a href="#" class="btn btn-primary">add to Cart</a>
+                    </p>
+                </div>
+            }
+        </div>
+
+        @if (ViewBag.TotalPages > 1)
+        {
+            <div class="row">
+                <div class="text-center">
+                    <Pagination page-count="@ViewBag.TotalPages" page-target="@ViewBag.PageTarget" page-number="@ViewBag.PageNumber" page-range="10"></Pagination>
+                </div>
+            </div>
+        }
+    </div>
+    
 </div>
+
+
 
 
