@@ -40,7 +40,7 @@ namespace Kupri4.ShopCart.Models
             {
                 Title = "About Us",
                 Slug = "about-us",
-                Content = "abuot-us page",
+                Content = "about-us page",
                 Sorting = 100,
             },
 

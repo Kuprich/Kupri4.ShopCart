@@ -49,23 +49,45 @@ namespace Kupri4.ShopCart
 
             app.UseEndpoints(endpoints =>
             {
+
                 endpoints.MapControllerRoute(
                   name: "areas",
                   pattern: "{area:exists}/{controller=Pages}/{p:int?}",
-                  defaults: new {action="Index"});
+                  defaults: new { action = "Index" });
 
                 endpoints.MapControllerRoute(
                   name: "areas",
                   pattern: "{area:exists}/{controller=Pages}/{action=Index}/{id?}");
 
-                endpoints.MapControllerRoute(
-                    name: "pages",
-                    pattern: "{slug:alpha?}",
-                    defaults: new { controller = "Pages", action = "Pages" });
+
 
                 endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=Home}/{action=Index}/{id?}");
+                    name: "products",
+                    pattern: "{controller}/{p:int?}",
+                    defaults: new { action = "Index" });
+
+                endpoints.MapControllerRoute(
+                    name: "products",
+                    pattern: "{controller}/{categorySlug}/{p:int?}",
+                    defaults: new { action = "ProductsByCategory" });
+
+                endpoints.MapControllerRoute(
+                    name: "products",
+                    pattern: "{controller}",
+                    defaults: new { action = "Index" });
+
+
+
+                endpoints.MapControllerRoute(
+                    name: "pages",
+                    pattern: "{slug?}",
+                    defaults: new { controller = "Pages", action = "Page" });
+
+
+                //endpoints.MapControllerRoute(
+                //   name: "default",
+                //   pattern: "{controller=Home}/{action=Index}/{id?}");
+
             });
 
         }

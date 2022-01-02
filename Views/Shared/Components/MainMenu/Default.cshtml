@@ -3,7 +3,10 @@
 
 @foreach (var item in Model)
 {
-    <li class="nav-item">
-        <a class="nav-link text-dark" asp-area="" asp-route-slug="@item.Slug" asp-controller="Pages" asp-action="Pages">@item.Title</a>
-    </li>
+    if (item.Slug != "home")
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-route-slug="@item.Slug" asp-controller="Pages" asp-action="Page">@item.Title</a>
+        </li>
+    }
 }

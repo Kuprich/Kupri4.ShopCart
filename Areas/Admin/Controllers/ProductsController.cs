@@ -1,7 +1,6 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Kupri4.ShopCart.Models;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -38,7 +37,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
             int pageSize = 3;
 
             var products = await _dbContext.Products.Include(x => x.Category)
-                .Skip(pageSize * (p-1))
+                .Skip(pageSize * (p - 1))
                 .Take(pageSize)
                 .ToListAsync();
 

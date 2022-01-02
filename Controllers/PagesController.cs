@@ -14,7 +14,8 @@ namespace Kupri4.ShopCart.Controllers
             _dbContext = dbContext;
         }
 
-        public async Task<IActionResult> Pages(string slug)
+        // GET / or /slug
+        public async Task<IActionResult> Page(string slug)
         {
             if (slug == null)
             {
