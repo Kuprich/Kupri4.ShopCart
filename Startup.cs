@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 using System.IO;
 
 namespace Kupri4.ShopCart
@@ -24,7 +25,13 @@ namespace Kupri4.ShopCart
             services.AddDbContext<ShopCartDbContext>(options =>
                 options.UseSqlite($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "ShopCart.Db")}"));
 
+            services.AddMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromDays(7);
+            });
             services.AddControllersWithViews();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -44,6 +51,8 @@ namespace Kupri4.ShopCart
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthorization();
 
@@ -84,9 +93,9 @@ namespace Kupri4.ShopCart
                     defaults: new { controller = "Pages", action = "Page" });
 
 
-                //endpoints.MapControllerRoute(
-                //   name: "default",
-                //   pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                   name: "default",
+                   pattern: "{controller=Home}/{action=Index}/{id?}");
 
             });
 
