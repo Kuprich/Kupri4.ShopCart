@@ -1,6 +1,7 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Kupri4.ShopCart.Infrastructure.Extensions;
 using Kupri4.ShopCart.Models;
+using Kupri4.ShopCart.Models.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Linq;
@@ -59,7 +60,13 @@ namespace Kupri4.ShopCart.Controllers
 
             HttpContext.Session.SetJson("Cart", cart);
 
-            return RedirectToAction(nameof(Index));
+            if (HttpContext.Request.Headers["X-Requested-With"] != "XMLHttpRequest")
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            return ViewComponent("SmallCart");
+
         }
 
         // GET /Cart/Decrease/2
@@ -110,7 +117,7 @@ namespace Kupri4.ShopCart.Controllers
         }
 
         // GET /Cart/Clear
-        public IActionResult Clear (int id)
+        public IActionResult Clear(int id)
         {
 
             HttpContext.Session.Remove("Cart");

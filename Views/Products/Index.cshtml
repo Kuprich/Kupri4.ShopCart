@@ -17,16 +17,24 @@
         <div class="row">
             @foreach (var product in Model)
             {
-                <div class="col-4">
-                    <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
-                    <h4>@product.Name</h4>
-                    <p>
-                        @Html.Raw(@product.Description)
-                    </p>
-                    <p>@product.Price.ToString("C2")</p>
-                    <p>
-                        <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" class="btn btn-primary">add to Cart</a>
-                    </p>
+                <div class="col-4 test">
+                    <div class="product-item">
+                        <div class="ajaxbg d-none">
+                            <img src="~/images/loading.gif" width="32" alt="" />
+                            <div class="lead alert alert-success text-center">
+                                Product has been added
+                            </div>
+                        </div>
+                        <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
+                        <h4>@product.Name</h4>
+                        <p>
+                            @Html.Raw(@product.Description)
+                        </p>
+                        <p>@product.Price.ToString("C2")</p>
+                        <p>
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" data-id="@product.Id" class="btn btn-primary addToCart">add to Cart</a>
+                        </p>
+                    </div>
                 </div>
             }
         </div>
@@ -40,9 +48,29 @@
             </div>
         }
     </div>
-    
+
 </div>
 
+@section Scripts{
+    <script>
+        $(function(){
+            
+            $("a.addToCart").click(function(e){
+                e.preventDefault();
+
+                let id = $(this).data("id");
+
+                $.get('/cart/add/'+id, {}, function(data){
+                    $(".smallCart").html(data);
+
+                });
+            });
+
+
+        });
+    </script>
+
+}
 
 
 

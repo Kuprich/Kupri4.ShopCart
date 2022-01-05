@@ -52,7 +52,7 @@
 
                     </td>
                     <td>
-                        @cartItem.Total
+                        @cartItem.Total.ToString("C2")
                     </td>
 
                 </tr>
@@ -69,7 +69,7 @@
         {
             <tr>
                 <th colspan="3">Grand total</th>
-                <th>@Model.GrandTotal</th>
+                <th>@Model.GrandTotal.ToString("C2")</th>
             </tr>
             <tr>
                 <th colspan="4" style="text-align: right">

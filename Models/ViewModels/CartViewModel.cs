@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kupri4.ShopCart.Models
+namespace Kupri4.ShopCart.Models.ViewModels
 {
     public class CartViewModel
     {

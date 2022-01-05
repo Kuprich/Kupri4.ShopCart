@@ -1,18 +1,16 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
-using Kupri4.ShopCart.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Kupri4.ShopCart.Controllers
 {
-    public class ProductsController: Controller
+    public class ProductsController : Controller
     {
         private readonly ShopCartDbContext _dbContext;
-        private const int PageSize = 2;
+        private const int PageSize = 6;
 
         public ProductsController(ShopCartDbContext dbContext)
         {

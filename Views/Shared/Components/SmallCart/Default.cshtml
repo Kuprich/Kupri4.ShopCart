@@ -1,0 +1,28 @@
+﻿@model SmallCartViewModel
+
+
+<a asp-controller="Cart" asp-action="Index" class="d-flex smallCart" id="cartLink">
+
+    @if (Model.NumberOfItems > 0)
+    {
+        <div class="d-flex align-items-center">
+            <div class="cartIcon-container">
+                <i class="fas fa-cart-arrow-down text-primary cartIcon "></i>
+            </div>
+            <div class="d-flex flex-column ml-2">
+                <div><span class="text-primary"><b>@Model.NumberOfItems</b></span> item(s)</div>
+                <div>Total Amount: <span class="text-primary"><b>@Model.TotalAmount.ToString("C2")</b></span></div>
+            </div>
+        </div>
+
+    }
+    else
+    {
+        <div>
+            <i class="fas fa-cart-arrow-down text-primary"></i>
+            <span class="ml-2 cartInfo">Your cart is empty</span>
+        </div>
+    }
+
+
+</a>
