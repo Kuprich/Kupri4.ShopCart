@@ -21,7 +21,7 @@
                     <div class="product-item">
                         <div class="ajaxbg d-none">
                             <img src="~/images/loading.gif" width="32" alt="" />
-                            <div class="lead alert alert-success text-center">
+                            <div class="lead alert alert-success text-center d-none">
                                 Product has been added
                             </div>
                         </div>
@@ -31,9 +31,9 @@
                             @Html.Raw(@product.Description)
                         </p>
                         <p>@product.Price.ToString("C2")</p>
-                        <p>
-                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" data-id="@product.Id" class="btn btn-primary addToCart">add to Cart</a>
-                        </p>
+                        <div class="text-center">
+                            <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" data-id="@product.Id" class="btn btn-primary mb-2 addToCart">add to Cart</a>
+                        </div>
                     </div>
                 </div>
             }
@@ -58,10 +58,22 @@
             $("a.addToCart").click(function(e){
                 e.preventDefault();
 
+                let ajaxbg = $(this).closest(".product-item").find(".ajaxbg")
+                ajaxbg.removeClass("d-none");
+
                 let id = $(this).data("id");
 
                 $.get('/cart/add/'+id, {}, function(data){
                     $(".smallCart").html(data);
+                    ajaxbg.find("img").addClass("d-none");
+                    ajaxbg.find(".alert").removeClass("d-none");
+                    setTimeout(() => {
+                        ajaxbg.animate({opacity: 0}, function() {
+                            $(this).addClass("d-none").fadeTo(.1, 1);
+                            $(this).find("img").removeClass("d-none");
+                            $(this).find(".alert").addClass("d-none");
+                        });
+                    }, 1500);
 
                 });
             });
