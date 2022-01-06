@@ -1,9 +1,10 @@
 ﻿using Kupri4.ShopCart.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Kupri4.ShopCart.Infrastructure
 {
-    public class ShopCartDbContext : DbContext
+    public class ShopCartDbContext : IdentityDbContext<AppUser>
     {
         public ShopCartDbContext(DbContextOptions<ShopCartDbContext> options)
             : base(options)

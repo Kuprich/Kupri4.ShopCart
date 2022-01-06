@@ -1,6 +1,8 @@
 using Kupri4.ShopCart.Infrastructure;
+using Kupri4.ShopCart.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +26,10 @@ namespace Kupri4.ShopCart
         {
             services.AddDbContext<ShopCartDbContext>(options =>
                 options.UseSqlite($"Data Source={Path.Combine(Directory.GetCurrentDirectory(), "ShopCart.Db")}"));
+
+            services.AddIdentity<AppUser, IdentityRole>()
+                .AddEntityFrameworkStores<ShopCartDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMemoryCache();
             services.AddSession(options =>
@@ -55,6 +61,7 @@ namespace Kupri4.ShopCart
             app.UseSession();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.UseEndpoints(endpoints =>
             {
