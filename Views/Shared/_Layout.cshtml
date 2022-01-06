@@ -21,7 +21,30 @@
                     <ul class="navbar-nav flex-grow-1">
                         @await Component.InvokeAsync("MainMenu")
                     </ul>
+
                     @await Component.InvokeAsync("SmallCart")
+
+
+                    <ul class="navbar-nav ml-4">
+
+                        @if ((bool)User?.Identity?.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <div>Hello, @User?.Identity?.Name</div>
+                                <a class="nav-link text-black p-0" asp-area="" asp-controller="Account" asp-action="Logout">Log out</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-primary" asp-area="" asp-controller="Account" asp-action="Login">Log in</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-black" asp-area="" asp-controller="Account" asp-action="Register">Register</a>
+                            </li>
+                        }
+                    </ul>
+
                 </div>
             </div>
         </nav>

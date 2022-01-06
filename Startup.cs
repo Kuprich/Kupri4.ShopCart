@@ -32,6 +32,7 @@ namespace Kupri4.ShopCart
                 .AddDefaultTokenProviders();
 
             services.AddMemoryCache();
+            services.AddAuthentication();
             services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(7);
@@ -60,8 +61,8 @@ namespace Kupri4.ShopCart
 
             app.UseSession();
 
-            app.UseAuthorization();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

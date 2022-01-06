@@ -2,10 +2,8 @@
 
 namespace Kupri4.ShopCart.Models.ViewModels
 {
-    public class UserVm
+    public class UserViewModel
     {
-        public UserVm() { }
-
         [Display(Name = "User name")]
         [Required, MinLength(3, ErrorMessage = "Minimum length is 3")]
         public string UserName { get; set; }

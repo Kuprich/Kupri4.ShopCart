@@ -1,4 +1,5 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -7,6 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kupri4.ShopCart.Controllers
 {
+    [Authorize]
     public class ProductsController : Controller
     {
         private readonly ShopCartDbContext _dbContext;
