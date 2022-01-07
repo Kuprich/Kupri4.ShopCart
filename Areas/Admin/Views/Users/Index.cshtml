@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AppUser>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Users list</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.UserName
+                </td>
+
+                <td>
+                    @item.Email
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
