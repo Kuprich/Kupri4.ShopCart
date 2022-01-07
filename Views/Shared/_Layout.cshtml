@@ -27,10 +27,14 @@
 
                     <ul class="navbar-nav ml-4">
 
-                        @if ((bool)User?.Identity?.IsAuthenticated)
+                        @if (User?.Identity?.IsAuthenticated ?? false)
                         {
                             <li class="nav-item">
-                                <div>Hello, @User?.Identity?.Name</div>
+                                <div>Hello, 
+                                    <a asp-area="" asp-controller="Account" asp-action="Details" class="text-primary">
+                                        @User?.Identity?.Name
+                                    </a>
+                                </div>
                                 <a class="nav-link text-black p-0" asp-area="" asp-controller="Account" asp-action="Logout">Log out</a>
                             </li>
                         }
@@ -51,6 +55,7 @@
     </header>
     <div class="container">
         <main role="main" class="pb-3">
+            @await Html.PartialAsync("_NotificationPartial")
             @RenderBody()
         </main>
     </div>

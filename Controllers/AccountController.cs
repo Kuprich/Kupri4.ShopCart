@@ -1,5 +1,6 @@
 ﻿using Kupri4.ShopCart.Models;
 using Kupri4.ShopCart.Models.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -12,7 +13,8 @@ namespace Kupri4.ShopCart.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public AccountController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public AccountController(UserManager<AppUser> userManager, 
+            SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -88,7 +90,7 @@ namespace Kupri4.ShopCart.Controllers
 
             if (result.Succeeded)
             {
-                return Redirect(vm.ReturnUrl ?? "/");
+                return RedirectToAction(nameof(Details));
             }
 
             ModelState.AddModelError("", "Login failed, wrong credentials");
@@ -96,6 +98,7 @@ namespace Kupri4.ShopCart.Controllers
         }
 
         // GET /Account/Logout
+        [Authorize]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
@@ -103,5 +106,86 @@ namespace Kupri4.ShopCart.Controllers
             return Redirect("/");
         }
 
+        // GET /Account/Details
+        [Authorize]
+        public async Task<IActionResult> Details()
+        {
+
+            var appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (appUser == null)
+            {
+                return Redirect("/");
+            }
+
+            UserViewModel vm = new(appUser);
+
+            return View(vm);
+
+        }
+
+        // GET /Account/Edit
+        [Authorize]
+        public async Task<IActionResult> Edit()
+        {
+            var appUser = await _userManager.FindByNameAsync(User.Identity.Name);
+
+            if (appUser == null)
+            {
+                return Redirect("/");
+            }
+
+            UserViewModel vm = new(appUser);
+
+            return View(vm);
+        }
+
+        // POST /Account/Edit
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserViewModel vm)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(vm);
+            }
+
+            AppUser appUser = await _userManager.GetUserAsync(HttpContext.User);
+
+            appUser.UserName = vm.UserName;
+            appUser.Email = vm.Email;
+
+            if (vm.NewPassword != null)
+            {
+                PasswordValidator<AppUser> passwordValidator = new();
+                IdentityResult validationPassword = await passwordValidator.ValidateAsync(_userManager, appUser, vm.NewPassword);
+
+                if (!validationPassword.Succeeded)
+                {
+                    ModelState.AddModelErrors(validationPassword.Errors);
+                    return View(vm);
+                }
+
+                appUser.PasswordHash = _userManager.PasswordHasher.HashPassword(appUser, vm.NewPassword);
+
+            }
+
+            IdentityResult result = await _userManager.UpdateAsync(appUser);
+
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelErrors(result.Errors);
+                return View(vm);
+            }
+
+            await _signInManager.SignOutAsync();
+            await _signInManager.SignInAsync(appUser, false);
+
+            TempData["Success"] = "Your information has been edited!";
+
+            return RedirectToAction(nameof(Details));
+
+        }
     }
 }
