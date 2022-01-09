@@ -1,0 +1,56 @@
+﻿@model string
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create role</h1>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-10">
+        <form asp-action="Create" id="createRoleForm">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="form-group">
+                <label class="control-label">Role name:</label>
+                <input id="name" name="name" for="name" class="form-control" />
+                <div id="errorLabelContainer" class="text-danger"></div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to roles list</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script type="text/javascript">
+
+        $("#createRoleForm").validate({
+            errorLabelContainer: "#errorLabelContainer",
+            rules: {
+                name: {
+                    required: true,
+                    minlength: 3
+                }
+            },
+            messages: {
+                name: {
+                    required: "Name is required",
+                    minlength: jQuery.validator.format("At least {0} characters required!")
+                }
+            }
+
+        });
+
+    </script>
+}

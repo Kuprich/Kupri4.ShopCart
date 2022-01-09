@@ -1,0 +1,105 @@
+﻿@model RoleEditViewModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit "@Model.RoleName" role </h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <input type="hidden" asp-for="@Model.RoleId" />
+            <input type="hidden" asp-for="@Model.RoleName"/>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col">
+                    <div>Add users to <span class="badge badge-primary">@Model.RoleName</span> role</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Add</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.NonMembers != null && Model.NonMembers.Count() != 0)
+                            {
+                                @foreach (var user in Model.NonMembers)
+                                {
+                                    <tr>
+                                        <td>@user.UserName</td>
+                                        <td>
+                                            <input type="checkbox" for="AddIds" name="AddIds" value="@user.Id" />
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        All uses have a current role
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="col">
+                    <div>Remove users from <span class="badge badge-primary">@Model.RoleName</span> role</div>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (Model.Members != null && Model.Members.Count() != 0){
+                                @foreach (var user in Model.Members)
+                            {
+                                <tr>
+                                    <td>@user.UserName</td>
+                                    <td>
+                                        <input type="checkbox" for="DeleteIds" name="DeleteIds" value="@user.Id" />
+                                    </td>
+                                </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="2">
+                                        None of the users have a current role. 
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+}
