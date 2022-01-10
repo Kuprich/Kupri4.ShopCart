@@ -90,7 +90,9 @@ namespace Kupri4.ShopCart.Controllers
 
             if (result.Succeeded)
             {
-                return RedirectToAction(nameof(Details));
+                return vm.ReturnUrl == "/"
+                    ? RedirectToAction(nameof(Details))
+                    : Redirect(vm.ReturnUrl);
             }
 
             ModelState.AddModelError("", "Login failed, wrong credentials");

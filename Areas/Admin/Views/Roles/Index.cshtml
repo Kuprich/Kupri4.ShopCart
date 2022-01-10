@@ -14,6 +14,7 @@
         <tr class="home">
             <th>Id</th>
             <th>Role</th>
+            <th>Users</th>
             <th></th>
         </tr>
     </thead>
@@ -25,7 +26,7 @@
 
                 <td>@role.Name</td>
 
-                <td>Users for this role</td>
+                <td user-role="@role.Id"></td>
 
                 <td>
                     <a asp-action="Edit" asp-route-id="@role.Id">Edit</a>  |

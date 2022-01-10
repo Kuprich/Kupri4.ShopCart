@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Razor.TagHelpers;
 using System.Text;
 
-namespace Kupri4.ShopCart.Infrastructure
+namespace Kupri4.ShopCart.Infrastructure.TagHelpers
 {
 
     public class PaginationTagHelper : TagHelper
@@ -54,7 +54,7 @@ namespace Kupri4.ShopCart.Infrastructure
 
         private void PageNumberUpperPageRange(StringBuilder content)
         {
-            for (int currentPage = PageCount - (2 * PageRange); currentPage < PageCount + 1; currentPage++)
+            for (int currentPage = PageCount - 2 * PageRange; currentPage < PageCount + 1; currentPage++)
             {
                 if (currentPage < 1 || currentPage > PageCount)
                 {
