@@ -31,6 +31,12 @@ namespace Kupri4.ShopCart
                 .AddEntityFrameworkStores<ShopCartDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddRouting(options =>
+            {
+                options.LowercaseUrls = true;
+                options.LowercaseQueryStrings = true;
+            });
+
             services.AddMemoryCache();
             services.AddAuthentication();
             services.AddSession(options =>

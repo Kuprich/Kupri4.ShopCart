@@ -112,12 +112,31 @@ a#cartLink, a#cartLink:active, #cartLink:visited, a#cartLink:hover {
     font-size: 25px;
 }
 
-.test {
-    position: relative
-}
-
 .product-item {
     position: relative;
+    display: flex;
+    height: 100%;
+    justify-content: space-between;
+    flex-direction: column;
+    padding-bottom: 20px;
+}
+    .product-item .image-container {
+        width: 100%;
+        height: 200px;
+        margin-bottom: 20px;
+    }
+        .product-item .image-container img {
+            width: 100%;
+            height: 100%;
+            display: block;
+            object-fit: contain;
+        }
+
+
+.ajaxbg-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }
 
 .ajaxbg {
@@ -130,7 +149,6 @@ a#cartLink, a#cartLink:active, #cartLink:visited, a#cartLink:hover {
     .ajaxbg > img,
     .ajaxbg > .lead {
         position: absolute;
-
         left: 50%;
         top: 50%;
         transform: translate(-50%, -50%);

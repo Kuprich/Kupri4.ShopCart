@@ -17,20 +17,28 @@
         <div class="row">
             @foreach (var product in Model)
             {
-                <div class="col-4 test">
+                <div class="col-4 align-items-stretch">
+
                     <div class="product-item">
-                        <div class="ajaxbg d-none">
-                            <img src="~/images/loading.gif" width="32" alt="" />
-                            <div class="lead alert alert-success text-center d-none">
-                                Product has been added
+                        <div class="ajaxbg-container d-none">
+                            <div class="ajaxbg">
+                                <img src="~/images/loading.gif" width="32" alt="" />
+                                <div class="lead alert alert-success text-center d-none">
+                                    Product has been added
+                                </div>
                             </div>
                         </div>
-                        <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
-                        <h4>@product.Name</h4>
-                        <p>
-                            @Html.Raw(@product.Description)
-                        </p>
-                        <p>@product.Price.ToString("C2")</p>
+
+                        <div>
+                            <div class="image-container">
+                                <img src="~/media/products/@product.Image" alt="Изображение товара" width="100%" />
+                            </div>
+                            <h4>@product.Name</h4>
+                            <p>
+                                @Html.Raw(@product.Description)
+                            </p>
+                            <p>@product.Price.ToString("C2")</p>
+                        </div>
                         <div class="text-center">
                             <a asp-controller="Cart" asp-action="Add" asp-route-id="@product.Id" data-id="@product.Id" class="btn btn-primary mb-2 addToCart">add to Cart</a>
                         </div>
@@ -52,35 +60,32 @@
 </div>
 
 @section Scripts{
-    <script>
-        $(function(){
-            
-            $("a.addToCart").click(function(e){
-                e.preventDefault();
+<script>
+    $(function(){
 
-                let ajaxbg = $(this).closest(".product-item").find(".ajaxbg")
-                ajaxbg.removeClass("d-none");
+        $("a.addToCart").click(function(e){
+            e.preventDefault();
 
-                let id = $(this).data("id");
+            let ajaxbg = $(this).closest(".product-item").find(".ajaxbg-container")
+            ajaxbg.removeClass("d-none");
 
-                $.get('/cart/add/'+id, {}, function(data){
-                    $(".smallCart").html(data);
-                    ajaxbg.find("img").addClass("d-none");
-                    ajaxbg.find(".alert").removeClass("d-none");
-                    setTimeout(() => {
-                        ajaxbg.animate({opacity: 0}, function() {
-                            $(this).addClass("d-none").fadeTo(.1, 1);
-                            $(this).find("img").removeClass("d-none");
-                            $(this).find(".alert").addClass("d-none");
-                        });
-                    }, 1500);
+            let id = $(this).data("id");
 
-                });
+            $.get('/cart/add/'+id, {}, function(data){
+                $(".smallCart").html(data);
+                ajaxbg.find("img").addClass("d-none");
+                ajaxbg.find(".alert").removeClass("d-none");
+                setTimeout(() => {
+                    ajaxbg.animate({opacity: 0}, function() {
+                        $(this).addClass("d-none").fadeTo(.1, 1);
+                        $(this).find("img").removeClass("d-none");
+                        $(this).find(".alert").addClass("d-none");
+                    });
+                }, 1500);
             });
-
-
         });
-    </script>
+    });
+</script>
 
 }
 

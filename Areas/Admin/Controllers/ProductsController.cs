@@ -1,5 +1,6 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Kupri4.ShopCart.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -13,6 +14,8 @@ using System.Threading.Tasks;
 namespace Kupri4.ShopCart.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class ProductsController : Controller
     {
         private const string DefaultImageName = "noimage.png";
@@ -190,7 +193,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            if (product.Image != DefaultImageName)
+            if (product.Image != null && product.Image != DefaultImageName)
             {
                 string filePath = Path.Combine(_uploadsDir, product.Image);
 

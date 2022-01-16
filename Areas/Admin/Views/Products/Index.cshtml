@@ -4,7 +4,7 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Products</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -50,7 +50,7 @@
                     @Html.Raw(item.Description)
                 </td>
                 <td>
-                    @item.Price
+                    @item.Price.ToString("C2")
                 </td>
                 <td>
                     @item.Category?.Name

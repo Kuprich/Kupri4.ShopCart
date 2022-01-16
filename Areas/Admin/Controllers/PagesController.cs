@@ -1,5 +1,6 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Kupri4.ShopCart.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
@@ -9,6 +10,7 @@ using System.Threading.Tasks;
 namespace Kupri4.ShopCart.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class PagesController : Controller
     {
         private readonly ShopCartDbContext _dbContext;

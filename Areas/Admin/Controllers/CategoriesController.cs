@@ -1,5 +1,6 @@
 ﻿using Kupri4.ShopCart.Infrastructure;
 using Kupri4.ShopCart.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using System.Threading.Tasks;
 namespace Kupri4.ShopCart.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class CategoriesController : Controller
     {
         private readonly ShopCartDbContext _dbContext;
@@ -112,7 +114,7 @@ namespace Kupri4.ShopCart.Areas.Admin.Controllers
                 TempData["Error"] = $"Category does not exist";
                 return RedirectToAction(nameof(Index));
             }
-            
+
             string uploadsDir = Path.Combine(_webHostEnvironment.WebRootPath, "media", "products");
             foreach (var product in category.Products)
             {
